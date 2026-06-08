@@ -842,7 +842,10 @@ body {
       <input type="text" id="playerNameInput" class="name-input" placeholder="Aapka naam? (Your name)" maxlength="18" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter') Game.start()">
     </div>
     <button class="btn btn-primary" onclick="Game.start()">🃏 Khelo! (Play vs AI)</button>
-    <button class="btn btn-secondary" onclick="showRules()">📖 How to Play</button>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn btn-secondary" onclick="showRules()">📖 How to Play</button>
+      <button class="btn btn-secondary" onclick="showAbout()">ℹ️ About</button>
+    </div>
     <div class="theme-toggle">
       <span>🟢 Classic</span>
       <div class="toggle-switch" id="themeToggle" onclick="toggleTheme()"></div>
@@ -851,6 +854,7 @@ body {
   </div>
 
   <div class="landing-flavor" id="landingFlavor"></div>
+  <div style="font-size:11px;color:var(--text-muted);opacity:0.5;margin-top:4px;" id="versionTag"></div>
 </div>
 
 <!-- ============================================================
@@ -1037,6 +1041,28 @@ body {
       <button class="btn btn-secondary btn-sm" onclick="closeOverlay('overlayQuit')">Keep Playing</button>
       <button class="btn btn-danger btn-sm" onclick="quitToMenu()">Quit</button>
     </div>
+  </div>
+</div>
+
+<!-- About overlay -->
+<div class="overlay" id="overlayAbout">
+  <div class="modal" style="max-width:400px;text-align:center;">
+    <div style="font-size:36px;margin-bottom:8px;">🕌</div>
+    <h2 style="font-size:28px;font-weight:900;color:var(--highlight);margin-bottom:4px;">Tunny</h2>
+    <p style="font-size:13px;color:#888;margin-bottom:16px;">The Hyderabadi Card Game</p>
+    <p style="font-size:14px;line-height:1.7;margin-bottom:16px;">
+      A digital revival of the beloved card game played by generations of Hyderabadi families —
+      brought to life with love and a lot of chai.
+    </p>
+    <div style="background:rgba(232,184,75,0.1);border:1px solid rgba(232,184,75,0.3);border-radius:10px;padding:14px 18px;margin-bottom:16px;">
+      <div style="font-size:12px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em;">Dedicated to</div>
+      <div style="font-size:16px;font-weight:700;color:var(--highlight);">The Narayan Mathur Family</div>
+      <div style="font-size:13px;color:#aaa;margin-top:4px;font-style:italic;">Hyderabad · Then & Always</div>
+    </div>
+    <p style="font-size:13px;color:#888;margin-bottom:6px;">Created by</p>
+    <p style="font-size:17px;font-weight:700;margin-bottom:4px;">Sunit Mathur</p>
+    <p style="font-size:12px;color:#888;margin-bottom:16px;" id="aboutVersion"></p>
+    <button class="btn btn-primary btn-sm" onclick="closeOverlay('overlayAbout')">Shukriya! 🙏</button>
   </div>
 </div>
 
@@ -2333,6 +2359,22 @@ function hydToast(type, extra = '') {
   }, 4000);
   el.style.transition = 'opacity 0.4s';
 })();
+
+// ============================================================
+// VERSION
+// ============================================================
+const TUNNY_VERSION = 'v1.0.4';
+
+(function() {
+  const vt = document.getElementById('versionTag');
+  if (vt) vt.textContent = TUNNY_VERSION;
+  const av = document.getElementById('aboutVersion');
+  if (av) av.textContent = TUNNY_VERSION + ' · tunny.sunitmathur.com';
+})();
+
+function showAbout() {
+  showOverlay('overlayAbout');
+}
 
 // ============================================================
 // GIT PAGES CONFIG & META
