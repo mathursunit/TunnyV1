@@ -396,24 +396,13 @@ body {
   z-index: 10;
 }
 .card.face-down {
-  background-color: #1a3a6b;
-  background-image:
-    radial-gradient(circle at 50% 50%, rgba(232,184,75,0.15) 0%, transparent 60%),
-    repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(232,184,75,0.08) 4px, rgba(232,184,75,0.08) 8px),
-    repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(255,255,255,0.04) 4px, rgba(255,255,255,0.04) 8px);
-  border: 1.5px solid rgba(232,184,75,0.4);
+  background-color: #0a0e1a;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 120'%3E%3Cdefs%3E%3CradialGradient id='glow' cx='50%25' cy='60%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%23c8922a' stop-opacity='0.18'/%3E%3Cstop offset='100%25' stop-color='%23000' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='sky' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%230a0e1a'/%3E%3Cstop offset='100%25' stop-color='%23121830'/%3E%3C/linearGradient%3E%3ClinearGradient id='stone' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23c8922a' stop-opacity='0.55'/%3E%3Cstop offset='100%25' stop-color='%23a06c18' stop-opacity='0.45'/%3E%3C/linearGradient%3E%3ClinearGradient id='reflect' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23c8922a' stop-opacity='0.2'/%3E%3Cstop offset='100%25' stop-color='%23c8922a' stop-opacity='0.02'/%3E%3C/linearGradient%3E%3C/defs%3E%3C!-- sky --%3E%3Crect width='80' height='120' fill='url(%23sky)'/%3E%3Crect width='80' height='120' fill='url(%23glow)'/%3E%3C!-- reflection pool --%3E%3Crect x='0' y='88' width='80' height='32' fill='%230d1220' opacity='0.9'/%3E%3C!-- minaret left-outer --%3E%3Crect x='6' y='30' width='7' height='55' fill='url(%23stone)'/%3E%3Cellipse cx='9.5' cy='30' rx='3.5' ry='5' fill='url(%23stone)'/%3E%3Cellipse cx='9.5' cy='25.5' rx='2.2' ry='3' fill='url(%23stone)'/%3E%3Cellipse cx='9.5' cy='23' rx='1.2' ry='1.8' fill='url(%23stone)'/%3E%3Crect x='8' y='21' width='3' height='2' fill='url(%23stone)'/%3E%3C!-- balcony rings left-outer --%3E%3Crect x='5' y='43' width='9' height='2' rx='1' fill='url(%23stone)'/%3E%3Crect x='5' y='55' width='9' height='2' rx='1' fill='url(%23stone)'/%3E%3Crect x='5' y='67' width='9' height='2' rx='1' fill='url(%23stone)'/%3E%3C!-- minaret right-outer --%3E%3Crect x='67' y='30' width='7' height='55' fill='url(%23stone)'/%3E%3Cellipse cx='70.5' cy='30' rx='3.5' ry='5' fill='url(%23stone)'/%3E%3Cellipse cx='70.5' cy='25.5' rx='2.2' ry='3' fill='url(%23stone)'/%3E%3Cellipse cx='70.5' cy='23' rx='1.2' ry='1.8' fill='url(%23stone)'/%3E%3Crect x='69' y='21' width='3' height='2' fill='url(%23stone)'/%3E%3Crect x='66' y='43' width='9' height='2' rx='1' fill='url(%23stone)'/%3E%3Crect x='66' y='55' width='9' height='2' rx='1' fill='url(%23stone)'/%3E%3Crect x='66' y='67' width='9' height='2' rx='1' fill='url(%23stone)'/%3E%3C!-- main body --%3E%3Crect x='13' y='50' width='54' height='38' fill='url(%23stone)'/%3E%3C!-- decorative arched band --%3E%3Crect x='13' y='50' width='54' height='6' fill='%23c8922a' opacity='0.35'/%3E%3C!-- arched windows row 1 --%3E%3Cpath d='M20 70 Q20 64 26 64 Q32 64 32 70 L32 78 L20 78Z' fill='%230a0e1a' opacity='0.5'/%3E%3Cpath d='M34 70 Q34 64 40 64 Q46 64 46 70 L46 78 L34 78Z' fill='%230a0e1a' opacity='0.5'/%3E%3Cpath d='M48 70 Q48 64 54 64 Q60 64 60 70 L60 78 L48 78Z' fill='%230a0e1a' opacity='0.5'/%3E%3C!-- small arched windows row 2 --%3E%3Cpath d='M22 58 Q22 54 26 54 Q30 54 30 58 L30 62 L22 62Z' fill='%230a0e1a' opacity='0.4'/%3E%3Cpath d='M36 58 Q36 54 40 54 Q44 54 44 58 L44 62 L36 62Z' fill='%230a0e1a' opacity='0.4'/%3E%3Cpath d='M50 58 Q50 54 54 54 Q58 54 58 58 L58 62 L50 62Z' fill='%230a0e1a' opacity='0.4'/%3E%3C!-- main arch gateway --%3E%3Cpath d='M31 88 Q31 72 40 72 Q49 72 49 88 L49 88 L31 88Z' fill='%230a0e1a' opacity='0.8'/%3E%3C!-- minaret left-inner --%3E%3Crect x='18' y='36' width='6' height='18' fill='url(%23stone)'/%3E%3Cellipse cx='21' cy='36' rx='3' ry='4' fill='url(%23stone)'/%3E%3Cellipse cx='21' cy='32.5' rx='1.8' ry='2.5' fill='url(%23stone)'/%3E%3Crect x='19.5' y='30' width='3' height='2.5' fill='url(%23stone)'/%3E%3Crect x='17' y='42' width='8' height='1.5' rx='0.5' fill='url(%23stone)'/%3E%3C!-- minaret right-inner --%3E%3Crect x='56' y='36' width='6' height='18' fill='url(%23stone)'/%3E%3Cellipse cx='59' cy='36' rx='3' ry='4' fill='url(%23stone)'/%3E%3Cellipse cx='59' cy='32.5' rx='1.8' ry='2.5' fill='url(%23stone)'/%3E%3Crect x='57.5' y='30' width='3' height='2.5' fill='url(%23stone)'/%3E%3Crect x='55' y='42' width='8' height='1.5' rx='0.5' fill='url(%23stone)'/%3E%3C!-- ground level --%3E%3Crect x='8' y='86' width='64' height='4' fill='url(%23stone)' opacity='0.6'/%3E%3C!-- reflection --%3E%3Crect x='13' y='90' width='54' height='16' fill='url(%23reflect)' opacity='0.5'/%3E%3Cellipse cx='9.5' cy='90' rx='3.5' ry='6' fill='url(%23reflect)' opacity='0.4'/%3E%3Cellipse cx='70.5' cy='90' rx='3.5' ry='6' fill='url(%23reflect)' opacity='0.4'/%3E%3C!-- golden border --%3E%3Crect x='1' y='1' width='78' height='118' rx='4' ry='4' fill='none' stroke='%23c8922a' stroke-width='1.2' stroke-opacity='0.5'/%3E%3Crect x='3' y='3' width='74' height='114' rx='3' ry='3' fill='none' stroke='%23c8922a' stroke-width='0.5' stroke-opacity='0.25'/%3E%3C/svg%3E");
+  background-size: cover;
+  border: 1.5px solid rgba(200,146,42,0.45);
   cursor: default;
   position: relative;
   overflow: hidden;
-}
-.card.face-down::after {
-  content: '🕌';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 22px;
-  opacity: 0.35;
-  pointer-events: none;
 }
 .card.trump-card {
   border-color: var(--trump-reveal);
@@ -2363,7 +2352,7 @@ function hydToast(type, extra = '') {
 // ============================================================
 // VERSION
 // ============================================================
-const TUNNY_VERSION = 'v1.0.4';
+const TUNNY_VERSION = 'v1.0.5';
 
 (function() {
   const vt = document.getElementById('versionTag');
