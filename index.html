@@ -1939,9 +1939,9 @@ const Game = {
     }
     this.renderScoreBar();
     setTimeout(() => {
-      s.phase = 'score';
       s.tunnyCall = null;
-      this.checkGameOver() || this.showRoundResult();
+      s.phase = 'score';
+      this.runPhase();
     }, 2000);
   },
 
