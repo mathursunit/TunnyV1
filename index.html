@@ -145,6 +145,29 @@ body {
   text-transform: uppercase;
   opacity: 0.6;
 }
+.name-input-wrap {
+  width: 100%;
+}
+.name-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 15px;
+  font-family: var(--font-main);
+  font-weight: 500;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.name-input::placeholder { color: rgba(255,255,255,0.35); }
+.name-input:focus {
+  border-color: var(--highlight);
+  background: rgba(255,255,255,0.12);
+}
+
 .landing-flavor {
   font-size: 13px;
   color: var(--text-muted);
@@ -815,6 +838,9 @@ body {
   </div>
 
   <div class="landing-actions">
+    <div class="name-input-wrap">
+      <input type="text" id="playerNameInput" class="name-input" placeholder="Aapka naam? (Your name)" maxlength="18" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter') Game.start()">
+    </div>
     <button class="btn btn-primary" onclick="Game.start()">🃏 Khelo! (Play vs AI)</button>
     <button class="btn btn-secondary" onclick="showRules()">📖 How to Play</button>
     <div class="theme-toggle">
@@ -1071,15 +1097,11 @@ function pickName(pool, exclude = []) {
   return options[Math.floor(Math.random() * options.length)];
 }
 
-function generatePlayerNames() {
-  const partner = pickName('partner');
-  const oppLeft = pickName('oppLeft');
-  const oppRight = pickName('oppRight', [partner, oppLeft]);
-  // Seats: 0=You, 1=left opp, 2=top (partner of opp), 3=right (your partner)
-  // Team0: you(0) + right(3). Team1: left(1) + top(2)
-  // So: top(2) is partner of left(1) = oppLeft's partner
-  //     right(3) is your partner
-  return ['Chote', oppLeft, pickName('partner', [partner, oppRight]), partner];
+function generatePlayerNames(humanName) {
+  const partner  = pickName('partner');
+  const oppLeft  = pickName('oppLeft');
+  const oppTop   = pickName('partner', [partner]);
+  return [humanName || 'Aap', oppLeft, oppTop, partner];
 }
 
 let PLAYER_NAMES = generatePlayerNames();
@@ -1224,8 +1246,10 @@ const Game = {
   state: null,
 
   start() {
-    // Fresh names every game
-    PLAYER_NAMES = generatePlayerNames();
+    // Fresh names every game — use entered name or default
+    const inputEl = document.getElementById('playerNameInput');
+    const humanName = inputEl ? inputEl.value.trim() || 'Aap' : 'Aap';
+    PLAYER_NAMES = generatePlayerNames(humanName);
     document.getElementById('nameBottom').textContent = PLAYER_NAMES[0];
     document.getElementById('nameLeft').textContent   = PLAYER_NAMES[1];
     document.getElementById('nameTop').textContent    = PLAYER_NAMES[2] + ' (partner)';
@@ -1667,7 +1691,10 @@ const Game = {
     pointsEl.style.display = 'none';
 
     await sleep(900);
-    this.renderAllHands();
+    // Render side hands only — human hand rendered by humanPlayCard() with click handlers
+    this.renderSideHand(1);
+    this.renderSideHand(2);
+    this.renderSideHand(3);
     await this.runPhase();
   },
 
