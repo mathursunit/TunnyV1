@@ -918,7 +918,7 @@ body {
   </div>
 
   <!-- Bottom (Human) -->
-  <div style="position:fixed;bottom:68px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;z-index:5">
+  <div style="position:fixed;bottom:68px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;z-index:20">
     <div class="hand-fan" id="handBottom"></div>
     <div class="player-name-tag" id="nameBottom">You</div>
   </div>
@@ -2099,11 +2099,11 @@ const Game = {
       const el = createCardEl(card, false);
       if (isLegal && onPlay) {
         el.classList.add('playable');
-        el.onclick = () => {
-          if (el.classList.contains('playable')) onPlay(card);
-        };
+        el.style.pointerEvents = 'auto';
+        el.onclick = () => { onPlay(card); };
       } else if (onPlay) {
         el.style.opacity = '0.45';
+        el.style.pointerEvents = 'none';
       }
       if (card.suit === s.trump && s.trumpRevealed) el.classList.add('trump-card');
       container.appendChild(el);
