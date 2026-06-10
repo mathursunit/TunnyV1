@@ -937,9 +937,9 @@ body {
     <h2>🎯 Bid Lagao!</h2>
     <p id="bidModalDesc">Pehle 4 cards dekhe — haath kitna strong hai?<br>Zyada bid = trump aap choose karo, lekin opponents ko compensation milega.</p>
     <div class="bid-options" id="bidOptions"></div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary btn-sm" onclick="Game.placeBid(0)" id="btnPass">Pass</button>
-      <button class="btn btn-primary btn-sm" onclick="Game.confirmBid()" id="btnConfirmBid" disabled>Confirm Bid</button>
+    <div class="modal-actions" style="flex-direction:column;gap:8px;">
+      <button class="btn btn-primary" onclick="Game.confirmBid()" id="btnConfirmBid" disabled style="width:100%">Confirm Bid</button>
+      <button class="btn btn-ghost" onclick="Game.placeBid(0)" id="btnPass" style="width:100%;color:var(--modal-text);border-color:#ccc;">👋 Pass — don't bid this round</button>
     </div>
   </div>
 </div>
@@ -1468,6 +1468,10 @@ const Game = {
     container.innerHTML = '';
     this._selectedBid = 0;
 
+    const confirmBtn = document.getElementById('btnConfirmBid');
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Select a bid above ↑';
+
     for (const v of opts) {
       const chip = document.createElement('div');
       chip.className = 'bid-chip';
@@ -1476,7 +1480,8 @@ const Game = {
         document.querySelectorAll('.bid-chip').forEach(c => c.classList.remove('selected'));
         chip.classList.add('selected');
         this._selectedBid = v;
-        document.getElementById('btnConfirmBid').disabled = false;
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = `✓ Confirm Bid: ${v}`;
       };
       container.appendChild(chip);
     }
@@ -1487,11 +1492,14 @@ const Game = {
     passBtn.disabled = false;
     if (isDealer && s.bidWinner === -1) {
       document.getElementById('bidModalDesc').textContent =
-        'You\'re the dealer and nobody bid. Bid to pick trump, or Pass to play a no-trump round.';
+        'You\'re the dealer and nobody bid. Pick a number and Confirm to take the bid (and choose trump), or Pass to play a no-trump round.';
+    } else {
+      document.getElementById('bidModalDesc').textContent =
+        'Tap a number to bid, then Confirm — or Pass if you don\'t want to bid.';
     }
 
     showOverlay('overlayBid');
-    setInstruction('Your turn to bid');
+    setInstruction('Your turn to bid — pick a number or Pass');
   },
 
   placeBid(val) {
@@ -2453,7 +2461,7 @@ function hydToast(type, extra = '') {
 // ============================================================
 // VERSION
 // ============================================================
-const TUNNY_VERSION = 'v1.2.0';
+const TUNNY_VERSION = 'v1.2.1';
 
 (function() {
   const vt = document.getElementById('versionTag');
