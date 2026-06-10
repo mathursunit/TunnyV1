@@ -187,6 +187,193 @@ body {
 }
 
 /* Multiplayer button */
+.btn-mp {
+  background: rgba(232,184,75,0.15);
+  color: var(--highlight);
+  border: 1.5px solid rgba(232,184,75,0.4);
+  font-size: 13px;
+  padding: 10px 8px;
+}
+.btn-mp:hover { background: rgba(232,184,75,0.25); }
+
+/* Lobby screen */
+#screen-lobby {
+  background: radial-gradient(ellipse at center, var(--felt-light) 0%, var(--felt-dark) 100%);
+  gap: 20px;
+}
+.lobby-box {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 24px;
+  width: 300px;
+  text-align: center;
+}
+.lobby-code {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--highlight);
+  letter-spacing: 8px;
+  margin: 12px 0;
+  font-family: monospace;
+}
+.lobby-seats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0;
+}
+.lobby-seat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+  font-size: 14px;
+  color: var(--text-on-felt);
+}
+.lobby-seat.filled { background: rgba(232,184,75,0.12); border: 1px solid rgba(232,184,75,0.3); }
+.lobby-seat.mine { background: rgba(232,184,75,0.2); border: 1px solid rgba(232,184,75,0.5); }
+.seat-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  flex-shrink: 0;
+}
+.seat-dot.filled { background: var(--highlight); }
+.seat-dot.mine { background: #4caf50; }
+.lobby-status {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+.lobby-chat {
+  width: 300px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 12px;
+  max-height: 120px;
+  overflow-y: auto;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.chat-msg { margin-bottom: 4px; }
+.chat-msg .chat-name { color: var(--highlight); font-weight: 600; }
+
+/* Room creation modal */
+.room-name-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--btn-border);
+  font-size: 15px;
+  font-family: var(--font-main);
+  margin-bottom: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.room-name-input:focus { border-color: var(--highlight); }
+.privacy-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.privacy-btn {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 8px;
+  border: 1.5px solid var(--btn-border);
+  background: var(--btn-bg);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--btn-text);
+}
+.privacy-btn.selected {
+  background: var(--highlight);
+  border-color: var(--highlight);
+  color: var(--btn-primary-text);
+  font-weight: 600;
+}
+
+/* Public rooms browser */
+.rooms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 12px 0;
+}
+.room-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(232,184,75,0.07);
+  border: 1px solid rgba(232,184,75,0.2);
+  gap: 10px;
+}
+.room-row-info { flex: 1; min-width: 0; }
+.room-row-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--modal-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.room-row-meta { font-size: 11px; color: #888; margin-top: 2px; }
+.room-row-join {
+  padding: 6px 14px;
+  font-size: 12px;
+  border-radius: 6px;
+  background: var(--highlight);
+  color: var(--btn-primary-text);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.rooms-empty {
+  text-align: center;
+  padding: 24px 0;
+  color: #888;
+  font-size: 13px;
+}
+.badge-public {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(76,175,80,0.18);
+  color: #4caf50;
+  font-weight: 600;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* Lobby room name display */
+.lobby-room-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-on-felt);
+  margin-bottom: 4px;
+  letter-spacing: 0.01em;
+}
+
+/* Name input error flash */
+.name-input.input-error {
+  border-color: var(--btn-danger) !important;
+  animation: shake 0.3s ease;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
 
 .btn {
   display: inline-flex;
@@ -831,9 +1018,14 @@ body {
 
   <div class="landing-actions">
     <div class="name-input-wrap">
-      <input type="text" id="playerNameInput" class="name-input" placeholder="Apna naam daalo (optional)" maxlength="18" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter') Game.start()">
+      <input type="text" id="playerNameInput" class="name-input" placeholder="Your name (required for multiplayer)" maxlength="18" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter') Game.start()">
     </div>
     <button class="btn btn-primary" onclick="Game.start()">🃏 Khelo! (vs AI)</button>
+    <div style="display:flex;gap:8px;width:100%">
+      <button class="btn btn-mp" onclick="MP.showCreateModal()" style="flex:1">🎮 Create Room</button>
+      <button class="btn btn-mp" onclick="MP.showJoin()" style="flex:1">🔗 Join Room</button>
+    </div>
+    <button class="btn btn-mp" onclick="MP.showBrowse()" style="width:100%">🌐 Browse Public Rooms</button>
     <div style="display:flex;gap:10px;justify-content:center">
       <button class="btn btn-secondary" onclick="showRules()">📖 How to Play</button>
       <button class="btn btn-secondary" onclick="showAbout()">ℹ️ About</button>
@@ -850,6 +1042,33 @@ body {
 </div>
 
 <!-- ============================================================
+     SCREEN: LOBBY (Multiplayer)
+     ============================================================ -->
+<div id="screen-lobby" class="screen">
+  <div class="landing-logo" style="text-align:center">
+    <div class="landing-hyd-icons">🕌 🎴</div>
+    <h1 style="font-size:40px">Tunny</h1>
+    <div class="tagline" id="lobbyMode">Multiplayer Room</div>
+  </div>
+
+  <div class="lobby-box">
+    <div class="lobby-room-name" id="lobbyRoomName"></div>
+    <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em">Room Code</div>
+    <div class="lobby-code" id="lobbyCode">----</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Share this code with your family!</div>
+    <div class="lobby-seats" id="lobbySeats"></div>
+    <div class="lobby-status" id="lobbyStatus">Waiting for players...</div>
+  </div>
+
+  <div class="lobby-chat" id="lobbyChat"></div>
+
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-ghost btn-sm" onclick="MP.leaveLobby()">← Leave</button>
+    <button class="btn btn-primary btn-sm" id="btnStartMP" onclick="MP.startGame()" disabled>Start Game →</button>
+  </div>
+</div>
+
+<!-- ============================================================
      SCREEN: GAME
      ============================================================ -->
 <div id="screen-game" class="screen">
@@ -858,7 +1077,6 @@ body {
   <div class="top-nav">
     <span class="game-title">Tunny</span>
     <div class="nav-actions">
-      <button class="nav-btn" onclick="Game.showTrumpInfo()">🃏 Trump?</button>
       <button class="nav-btn" onclick="toggleHints()">? Hints</button>
       <button class="nav-btn" onclick="confirmQuit()">✕ Quit</button>
     </div>
@@ -951,7 +1169,6 @@ body {
     <p>Bid jeet liya! Apne haath se ek suit trump banao.<br>Woh suit is round mein sab ko harayega! 💪</p>
     <div class="suit-picker" id="suitPicker"></div>
     <div class="modal-actions">
-      <button class="btn btn-secondary btn-sm" onclick="Game.passTrump()" id="btnPassTrump">Pass (No Trump)</button>
       <button class="btn btn-primary btn-sm" onclick="Game.confirmTrump()" id="btnConfirmTrump" disabled>Set Trump</button>
     </div>
   </div>
@@ -1057,6 +1274,39 @@ body {
     <p style="font-size:17px;font-weight:700;margin-bottom:4px;">Sunit Mathur</p>
     <p style="font-size:12px;color:#888;margin-bottom:16px;" id="aboutVersion"></p>
     <button class="btn btn-primary btn-sm" onclick="closeOverlay('overlayAbout')">Shukriya! 🙏</button>
+  </div>
+</div>
+
+<!-- Create Room modal -->
+<div class="overlay" id="overlayCreateRoom">
+  <div class="modal">
+    <h2>🎮 Create a Room</h2>
+    <p>Name your room and choose who can join.</p>
+    <input type="text" id="roomNameInput" class="room-name-input" placeholder="Room name (e.g. Mathur Family)" maxlength="30" autocomplete="off" spellcheck="false">
+    <div class="privacy-toggle">
+      <button class="privacy-btn selected" id="btnPrivate" onclick="MP._setPrivacy(false)">🔒 Private</button>
+      <button class="privacy-btn" id="btnPublic" onclick="MP._setPrivacy(true)">🌐 Public</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary btn-sm" onclick="closeOverlay('overlayCreateRoom')">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="MP.showCreate()">Create →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Browse Public Rooms modal -->
+<div class="overlay" id="overlayBrowseRooms">
+  <div class="modal" style="max-width:420px">
+    <h2>🌐 Public Rooms</h2>
+    <p style="margin-bottom:4px">Open games waiting for players</p>
+    <div class="rooms-list" id="publicRoomsList">
+      <div class="rooms-empty">Loading...</div>
+    </div>
+    <div style="font-size:11px;color:#aaa;margin-bottom:14px;text-align:center" id="browseRefreshHint">Refreshes every 5s</div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary btn-sm" onclick="MP.closeBrowse()">Close</button>
+      <button class="btn btn-mp btn-sm" onclick="MP.refreshBrowse()">🔄 Refresh</button>
+    </div>
   </div>
 </div>
 
@@ -1309,6 +1559,58 @@ const Game = {
     this.runPhase();
   },
 
+  // Multiplayer entry point — called after lobby setup
+  startMultiplayer(mySeat, humanSeats) {
+    PLAYER_NAMES = ['Aap', 'Bot', 'Bot', 'Bot'];
+    MP.players.forEach(p => { PLAYER_NAMES[p.seat] = p.name; });
+
+    // Rotate view so mySeat is always at the bottom
+    // Visual positions: bottom=mySeat, left=(mySeat+1)%4, top=(mySeat+2)%4, right=(mySeat+3)%4
+    const viewSeats = [mySeat, (mySeat+1)%4, (mySeat+2)%4, (mySeat+3)%4];
+    // Teams: viewSeats[0] & viewSeats[2] are partners; viewSeats[1] & viewSeats[3] are opponents
+    const isPartnerTop = (mySeat + 2) % 4; // partner is always across
+    document.getElementById('nameBottom').textContent = PLAYER_NAMES[viewSeats[0]] + ' (you)';
+    document.getElementById('nameLeft').textContent   = PLAYER_NAMES[viewSeats[1]];
+    document.getElementById('nameTop').textContent    = PLAYER_NAMES[viewSeats[2]] + ' 🤝 partner';
+    document.getElementById('nameRight').textContent  = PLAYER_NAMES[viewSeats[3]];
+    // team0=[0,2], team1=[1,3] in canonical seats
+    document.getElementById('team0Label').textContent = `${PLAYER_NAMES[0]} & ${PLAYER_NAMES[2]}`;
+    document.getElementById('team1Label').textContent = `${PLAYER_NAMES[1]} & ${PLAYER_NAMES[3]}`;
+    // Store view rotation for renderSideHand on non-host clients
+    this._viewRotation = mySeat; // how many seats rotated from canonical
+
+    showScreen('game');
+    this.state = {
+      phase: 'draw',
+      dealer: Math.floor(Math.random() * 4),
+      balls: [0, 0],
+      target: BALLS_TO_WIN,
+      khanackCalled: false,
+      hands: Array(4).fill(null).map(() => []),
+      trump: null,
+      trumpRevealed: false,
+      bidWinner: -1,
+      bidAmount: 0,
+      bids: [0, 0, 0, 0],
+      currentBidder: -1,
+      highBid: 0,
+      trick: [],
+      trickLeader: -1,
+      handNum: 0,
+      handScores: [0, 0],
+      jodies: [],
+      tunnyCall: null,
+      tunnyHandsWon: [],
+      doubleCall: null,
+      khanackCall: null,
+      twoToClear: false,
+      playedCards: [],
+      roundJodieTeam: [-1],
+    };
+    this.renderScoreBar();
+    // Only host (seat 0) drives the game loop
+    if (MP.isHost) this.runPhase();
+  },
 
   teamOf(playerIdx) {
     return TEAMS[0].includes(playerIdx) ? 0 : 1;
@@ -1368,7 +1670,6 @@ const Game = {
     s.highBid = 0;
     s.bidWinner = -1;
     s.bidAmount = 0;
-    s.noTrumpRound = false;
 
     const deck = shuffle(makeDeck());
     // Deal 4 cards to each player, clockwise from dealer
@@ -1388,6 +1689,14 @@ const Game = {
     const firstBidder = PLAYER_NAMES[(s.dealer + 1) % 4];
     showToast(`🃏 ${dealerName} is dealing — bidding starts with ${firstBidder}`, 2500);
     setInstruction('Cards dealt! Bidding begins...');
+
+    // In multiplayer: broadcast each player's hand to them
+    if (MP.active && MP.isHost) {
+      MP.sendAction('deal_hands', {
+        hands: s.hands.map((hand, i) => ({ seat: i, cards: hand })),
+        dealer: s.dealer,
+      });
+    }
 
     await sleep(600);
     s.phase = 'bid';
@@ -1414,16 +1723,9 @@ const Game = {
     if (s.bidIdx >= 4) {
       // Bidding done
       if (s.bidWinner === -1) {
-        // Nobody bid — no-trump round (no compensation, threshold scoring as usual)
-        s.bidWinner = -1;
-        s.bidAmount = 0;
-        s.trump = null;
-        s.noTrumpRound = true;
-        showToast('🃏 Sab ne pass kiya — No Trump round!', 2200);
-        await sleep(800);
-        s.phase = 'deal2';
-        await this.runPhase();
-        return;
+        // Nobody bid — dealer must take it at 10
+        s.bidWinner = s.dealer;
+        s.bidAmount = 10;
       }
       showToast(`🎯 ${PLAYER_NAMES[s.bidWinner]} wins the bid at ${s.bidAmount > 0 ? s.bidAmount : 'free'}!`, 2000);
       await sleep(800);
@@ -1439,6 +1741,25 @@ const Game = {
     if (isHuman) {
       // Show bid modal
       this.showBidModal(s.highBid, isDealer);
+    } else if (MP.active && MP.isHost && MP.isRemote(playerIdx)) {
+      // Remote human bidder — signal their client, wait for response
+      setInstruction(`Waiting for ${PLAYER_NAMES[playerIdx]} to bid...`);
+      setPlayerActive(playerIdx, true, true);
+      MP.sendAction('your_turn_bid', { seat: playerIdx, highBid: s.highBid, isDealer });
+      const payload = await MP.waitForRemote();
+      setPlayerActive(playerIdx, false, false);
+      const bid = payload.amount || 0;
+      if (bid > s.highBid) {
+        s.highBid = bid;
+        s.bidWinner = playerIdx;
+        s.bids[playerIdx] = bid;
+        showToast(`🎯 ${PLAYER_NAMES[playerIdx]} bids ${bid}`, 1200);
+      } else {
+        showToast(`${PLAYER_NAMES[playerIdx]} passes 🤷`, 1000);
+      }
+      await sleep(600);
+      s.bidIdx++;
+      await this.nextBidder();
     } else {
       // AI bid
       setInstruction(`${PLAYER_NAMES[playerIdx]} is bidding...`);
@@ -1482,12 +1803,11 @@ const Game = {
     }
 
     const passBtn = document.getElementById('btnPass');
-    // Human can always pass — even as dealer. If everyone passes, the round
-    // is played with no trump (see nextBidder / phaseTrump).
-    passBtn.disabled = false;
-    if (isDealer && s.bidWinner === -1) {
-      document.getElementById('bidModalDesc').textContent =
-        'You\'re the dealer and nobody bid. Bid to pick trump, or Pass to play a no-trump round.';
+    // Dealer must bid if nobody else did
+    const dealerMustBid = isDealer && s.bidWinner === -1;
+    passBtn.disabled = dealerMustBid;
+    if (dealerMustBid) {
+      document.getElementById('bidModalDesc').textContent = 'Nobody bid — as dealer you must take it at 10.';
     }
 
     showOverlay('overlayBid');
@@ -1509,13 +1829,19 @@ const Game = {
 
   async submitBid(amount) {
     const s = this.state;
+    const mySeat = MP.active ? MP.mySeat : 0;
     if (amount > s.highBid) {
       s.highBid = amount;
-      s.bidWinner = 0;
-      s.bids[0] = amount;
+      s.bidWinner = mySeat;
+      s.bids[mySeat] = amount;
       showToast(`You bid ${amount}`, 1200);
     } else {
       showToast('You pass', 900);
+    }
+    // In multiplayer as non-host: send bid to host then stop — host drives nextBidder
+    if (MP.active && !MP.isHost) {
+      MP.sendAction('bid', { seat: mySeat, amount });
+      return; // host will call nextBidder after receiving this
     }
     s.bidIdx++;
     await this.nextBidder();
@@ -1524,10 +1850,23 @@ const Game = {
   async phaseTrump() {
     const s = this.state;
     const winner = s.bidWinner;
+    const isLocalHuman = winner === 0 || (MP.active && winner === MP.mySeat);
 
-    if (winner === 0) {
+    if (isLocalHuman) {
       // Show trump picker with their hand
       this.showTrumpModal();
+    } else if (MP.active && MP.isHost && MP.isRemote(winner)) {
+      // Remote human bid winner — signal their client, wait for trump selection
+      setInstruction(`Waiting for ${PLAYER_NAMES[winner]} to choose trump...`);
+      setPlayerActive(winner, true, true);
+      MP.sendAction('your_turn_trump', { seat: winner });
+      const payload = await MP.waitForRemote();
+      setPlayerActive(winner, false, false);
+      s.trump = payload.suit;
+      showToast(`🤫 ${PLAYER_NAMES[winner]} ne trump set kiya — raaz hai!`, 1800);
+      await sleep(800);
+      s.phase = 'deal2';
+      await this.runPhase();
     } else {
       setInstruction(`${PLAYER_NAMES[winner]} is choosing trump...`);
       setPlayerActive(winner, true, true);
@@ -1581,22 +1920,12 @@ const Game = {
     closeOverlay('overlayTrump');
     const s = this.state;
     s.trump = this._selectedTrump;
-    s.noTrumpRound = false;
     showToast(`🤫 Trump set! Shh — raaz rakho!`, 1500);
-    await sleep(600);
-    s.phase = 'deal2';
-    await this.runPhase();
-  },
-
-  // Human won the bid but declines to set a trump — play the round no-trump.
-  async passTrump() {
-    closeOverlay('overlayTrump');
-    const s = this.state;
-    s.trump = null;
-    s.noTrumpRound = true;
-    s.bidWinner = -1;   // no bidding team in a no-trump round
-    s.bidAmount = 0;
-    showToast('🃏 No Trump! Aap ne trump pass kiya.', 1800);
+    // In multiplayer as non-host: send trump to host then wait — host drives deal2
+    if (MP.active && !MP.isHost) {
+      MP.sendAction('set_trump', { seat: MP.mySeat, suit: this._selectedTrump });
+      return;
+    }
     await sleep(600);
     s.phase = 'deal2';
     await this.runPhase();
@@ -1619,6 +1948,15 @@ const Game = {
 
     this.renderAllHands();
     setInstruction('2 more cards dealt. Prepare to play!');
+
+    // In multiplayer: broadcast updated hands including trump
+    if (MP.active && MP.isHost) {
+      MP.sendAction('deal_hands', {
+        hands: s.hands.map((hand, i) => ({ seat: i, cards: hand })),
+        dealer: s.dealer,
+        trump: s.trump,
+      });
+    }
 
     await sleep(500);
     s.phase = 'hold';
@@ -1695,6 +2033,9 @@ const Game = {
       if (currentPlayer === 0) {
         // Local human's turn
         await this.humanPlayCard(ledSuit);
+      } else if (MP.active && MP.isHost && MP.isRemote(currentPlayer)) {
+        // Remote human seat — wait for their WebSocket action
+        await this.remotePlayCard(currentPlayer, ledSuit);
       } else {
         // AI plays
         await this.aiPlayCard(currentPlayer, ledSuit);
@@ -1774,11 +2115,38 @@ const Game = {
         this.playCardToTable(0, card);
         if (!s.trumpRevealed && card.suit === s.trump) this.revealTrump();
         this.renderPlayerHand(0, [], null);
+        // Broadcast move to other players
+        MP.sendAction('play_card', { seat: 0, cardId: card.id });
         resolve();
       });
     });
   },
 
+  // Remote human seat play — host signals that seat, waits for WebSocket action
+  async remotePlayCard(playerIdx, ledSuit) {
+    const s = this.state;
+    setInstruction(`Waiting for ${PLAYER_NAMES[playerIdx]}...`);
+    setPlayerActive(playerIdx, true, true);
+    // Tell that client it's their turn
+    MP.sendAction('your_turn', { seat: playerIdx, ledSuit });
+    const payload = await MP.waitForRemote();
+    setPlayerActive(playerIdx, false, false);
+    // Find card by id from their hand
+    const card = s.hands[playerIdx].find(c => c.id === payload.cardId);
+    if (!card) return; // safety
+    const legalMoves = this.getLegalMoves(s.hands[playerIdx], ledSuit, s.trump, s.trick);
+    // Validate (basic)
+    const isLegal = legalMoves.some(c => c.id === card.id);
+    const playCard = isLegal ? card : legalMoves[0];
+    s.hands[playerIdx] = s.hands[playerIdx].filter(c => c.id !== playCard.id);
+    s.trick.push({ player: playerIdx, card: playCard });
+    s.playedCards.push(playCard);
+    this.playCardToTable(playerIdx, playCard);
+    if (!s.trumpRevealed && playCard.suit === s.trump) this.revealTrump();
+    this.renderSideHand(playerIdx);
+    // Broadcast played card to all non-host clients for visual update
+    MP.sendAction('play_card', { seat: playerIdx, cardId: playCard.id });
+  },
 
   async aiPlayCard(playerIdx, ledSuit) {
     const s = this.state;
@@ -1862,32 +2230,6 @@ const Game = {
     const disp = document.getElementById('trumpDisplay');
     disp.style.opacity = '1';
     showToast(`🔥 Trump khul gaya! ${icon} ${name}!`, 2000);
-  },
-
-  // Tell the human the current trump at any time (top-nav "🃏 Trump?" button).
-  showTrumpInfo() {
-    const s = this.state;
-    if (!s || (s.phase === 'draw' || s.phase === 'deal4' || s.phase === 'bid')) {
-      showToast('🃏 Trump abhi tay nahi hua — pehle bidding hone do!', 2200);
-      return;
-    }
-    if (s.noTrumpRound || (s.bidWinner === -1 && !s.trump)) {
-      showToast('🃏 No-Trump round — koi trump nahi hai!', 2200);
-      return;
-    }
-    if (!s.trump) {
-      showToast('🃏 Trump abhi tay nahi hua.', 2000);
-      return;
-    }
-    const icon = SUIT_SYMBOLS[s.trump];
-    const name = s.trump.charAt(0).toUpperCase() + s.trump.slice(1);
-    // Light up the score-bar indicator too, so it stays visible afterwards.
-    document.getElementById('trumpSuitIcon').textContent = icon;
-    document.getElementById('trumpSuitIcon').style.color =
-      SUIT_COLORS[s.trump] === 'red' ? 'var(--hearts-color)' : 'var(--clubs-color)';
-    document.getElementById('trumpSuitName').textContent = s.trumpRevealed ? 'Trump' : 'Trump (you know)';
-    document.getElementById('trumpDisplay').style.opacity = '1';
-    showToast(`🃏 Trump: ${icon} ${name}`, 2200);
   },
 
   async jodieWindow(handWinner) {
@@ -2039,18 +2381,6 @@ const Game = {
     const myTeam = 0; // counting from team0 perspective
     const t0pts = s.handScores[0];
     const t1pts = s.handScores[1];
-
-    // No-trump round (everyone passed): no bidding team. Higher trick-point
-    // total wins the round and takes 1 ball; ties go to nobody.
-    if (s.bidWinner === -1) {
-      const winTeam = t0pts === t1pts ? -1 : (t0pts > t1pts ? 0 : 1);
-      if (winTeam !== -1) s.balls[winTeam] += 1;
-      this.renderScoreBar();
-      if (this.checkGameOver()) return;
-      this.showRoundResult(t0pts, t1pts, winTeam === -1 ? 0 : winTeam, winTeam !== -1);
-      return;
-    }
-
     const bidTeam = this.teamOf(s.bidWinner);
     const countTeam = 1 - bidTeam;
 
@@ -2175,9 +2505,10 @@ const Game = {
   // ============================================================
 
   renderAllHands() {
-    this.renderPlayerHand(0, [], null);
-    for (let i = 1; i < 4; i++) {
-      this.renderSideHand(i);
+    const mySeat = MP.active ? MP.mySeat : 0;
+    this.renderPlayerHand(mySeat, [], null);
+    for (let i = 0; i < 4; i++) {
+      if (i !== mySeat) this.renderSideHand(i);
     }
   },
 
@@ -2390,6 +2721,18 @@ function confirmQuit() {
 
 function quitToMenu() {
   closeOverlay('overlayQuit');
+  // Clean up multiplayer state so Create Room works again
+  if (MP.ws) { MP.ws.close(); MP.ws = null; }
+  MP.active = false;
+  MP.roomCode = null;
+  MP.mySeat = -1;
+  MP.isHost = false;
+  MP.players = [];
+  MP._pendingResolve = null;
+  const chat = document.getElementById('lobbyChat');
+  if (chat) chat.innerHTML = '';
+  const lobbyCode = document.getElementById('lobbyCode');
+  if (lobbyCode) lobbyCode.textContent = '----';
   showScreen('landing');
 }
 
@@ -2451,9 +2794,462 @@ function hydToast(type, extra = '') {
 })();
 
 // ============================================================
+// MULTIPLAYER (Architecture 1 — Client-authoritative relay)
+// ============================================================
+// Auto-detect: use relative WS when served from tunny2, else explicit URL
+const WS_URL = (() => {
+  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${proto}//${location.host}`;
+})();
+
+const MP = {
+  ws: null,
+  roomCode: null,
+  mySeat: -1,
+  myName: '',
+  players: [],       // [{id, name, seat, ready}]
+  isHost: false,     // seat 0 is host — runs full game logic
+  humanSeats: [],    // which seats are real humans (not AI)
+  active: false,     // true when in a multiplayer game
+  _pendingResolve: null, // for awaiting remote player actions
+
+  // ── Connection ────────────────────────────────────────────
+  connect() {
+    return new Promise((resolve, reject) => {
+      if (this.ws && this.ws.readyState === WebSocket.OPEN) { resolve(); return; }
+      this.ws = new WebSocket(WS_URL);
+      this.ws.onopen = () => resolve();
+      this.ws.onerror = (e) => reject(e);
+      this.ws.onmessage = (e) => this._onMessage(JSON.parse(e.data));
+      this.ws.onclose = () => {
+        if (this.active) showToast('⚠️ Connection lost! Arey yaar...', 3000);
+      };
+    });
+  },
+
+  send(type, payload = {}) {
+    if (this.ws && this.ws.readyState === WebSocket.OPEN)
+      this.ws.send(JSON.stringify({ type, payload }));
+  },
+
+  // ── Lobby UI ──────────────────────────────────────────────
+  // ── Create Room flow ──────────────────────────────────────
+  _isPublic: false,
+
+  _requireName() {
+    const input = document.getElementById('playerNameInput');
+    const name = input?.value.trim();
+    if (!name) {
+      input?.focus();
+      input?.classList.add('input-error');
+      setTimeout(() => input?.classList.remove('input-error'), 1500);
+      showToast('⚠️ Pehle apna naam daalo!', 1800);
+      return false;
+    }
+    return true;
+  },
+
+  showCreateModal() {
+    if (!this._requireName()) return;
+    if (this.roomCode) return; // already in a room
+    // Pre-fill room name from player name
+    const playerName = document.getElementById('playerNameInput')?.value.trim();
+    const roomInput = document.getElementById('roomNameInput');
+    if (roomInput) roomInput.value = playerName + "'s Room";
+    this._setPrivacy(false); // default private
+    showOverlay('overlayCreateRoom');
+  },
+
+  _setPrivacy(isPublic) {
+    this._isPublic = isPublic;
+    document.getElementById('btnPrivate').classList.toggle('selected', !isPublic);
+    document.getElementById('btnPublic').classList.toggle('selected', isPublic);
+  },
+
+  async showCreate() {
+    // Called from Create Room modal confirm button
+    if (this.roomCode) { closeOverlay('overlayCreateRoom'); return; }
+    const roomName = document.getElementById('roomNameInput')?.value.trim() ||
+                     (document.getElementById('playerNameInput')?.value.trim() || 'Aap') + "'s Room";
+    this.myName = document.getElementById('playerNameInput')?.value.trim() || 'Aap';
+    closeOverlay('overlayCreateRoom');
+    try {
+      showToast('🔌 Connecting...', 1200);
+      await this.connect();
+      this.send('create_room', { name: this.myName, roomName, isPublic: this._isPublic });
+    } catch(e) {
+      showToast('❌ Server se connect nahi hua. Try again!', 2500);
+    }
+  },
+
+  // ── Browse Public Rooms ───────────────────────────────────
+  _browseInterval: null,
+
+  async showBrowse() {
+    if (!this._requireName()) return;
+    this.myName = document.getElementById('playerNameInput')?.value.trim() || 'Aap';
+    showOverlay('overlayBrowseRooms');
+    await this.refreshBrowse();
+    this._browseInterval = setInterval(() => this.refreshBrowse(), 5000);
+  },
+
+  closeBrowse() {
+    clearInterval(this._browseInterval);
+    this._browseInterval = null;
+    closeOverlay('overlayBrowseRooms');
+  },
+
+  async refreshBrowse() {
+    try {
+      await this.connect();
+      this.send('list_rooms', {});
+    } catch(e) {
+      document.getElementById('publicRoomsList').innerHTML =
+        '<div class="rooms-empty">❌ Could not connect to server</div>';
+    }
+  },
+
+  _renderRoomsList(rooms) {
+    const el = document.getElementById('publicRoomsList');
+    if (!el) return;
+    if (!rooms.length) {
+      el.innerHTML = '<div class="rooms-empty">No public rooms open right now.<br>Be the first to create one!</div>';
+      return;
+    }
+    el.innerHTML = '';
+    rooms.forEach(r => {
+      const row = document.createElement('div');
+      row.className = 'room-row';
+      row.innerHTML = `
+        <div class="room-row-info">
+          <div class="room-row-name">${r.roomName || 'Unnamed Room'}</div>
+          <div class="room-row-meta">Code: <strong>${r.code}</strong> &nbsp;·&nbsp; ${r.players}/${r.maxPlayers} players</div>
+        </div>
+        <button class="room-row-join" onclick="MP.joinFromBrowse('${r.code}')">Join →</button>
+      `;
+      el.appendChild(row);
+    });
+  },
+
+  async joinFromBrowse(code) {
+    this.closeBrowse();
+    this.myName = document.getElementById('playerNameInput')?.value.trim() || 'Aap';
+    try {
+      showToast('🔌 Connecting...', 1200);
+      await this.connect();
+      this.send('join_room', { code, name: this.myName });
+    } catch(e) {
+      showToast('❌ Server se connect nahi hua. Try again!', 2500);
+    }
+  },
+
+  async showJoin() {
+    if (!this._requireName()) return;
+    const code = prompt('Room code daalo (4 letters):');
+    if (!code) return;
+    this.myName = document.getElementById('playerNameInput')?.value.trim() || 'Aap';
+    try {
+      showToast('🔌 Connecting...', 1200);
+      await this.connect();
+      this.send('join_room', { code: code.toUpperCase(), name: this.myName });
+    } catch(e) {
+      showToast('❌ Server se connect nahi hua. Try again!', 2500);
+    }
+  },
+
+  leaveLobby() {
+    if (this.ws) { this.ws.close(); this.ws = null; }
+    this.active = false;
+    this.roomCode = null;
+    this.mySeat = -1;
+    this.isHost = false;
+    this.players = [];
+    // Clear lobby UI for next visit
+    const chat = document.getElementById('lobbyChat');
+    if (chat) chat.innerHTML = '';
+    const code = document.getElementById('lobbyCode');
+    if (code) code.textContent = '----';
+    const rn = document.getElementById('lobbyRoomName');
+    if (rn) rn.textContent = '';
+    showScreen('landing');
+  },
+
+  renderSeats() {
+    const el = document.getElementById('lobbySeats');
+    if (!el) return;
+    el.innerHTML = '';
+    const seatLabels = ['Seat 1 (You lead)', 'Seat 2', 'Seat 3', 'Seat 4'];
+    for (let i = 0; i < 4; i++) {
+      const p = this.players.find(p => p.seat === i);
+      const isMine = i === this.mySeat;
+      const div = document.createElement('div');
+      div.className = 'lobby-seat' + (p ? ' filled' : '') + (isMine ? ' mine' : '');
+      div.innerHTML = `<div class="seat-dot ${p ? (isMine ? 'mine' : 'filled') : ''}"></div>
+        <span>${p ? p.name + (isMine ? ' (you)' : '') : seatLabels[i] + ' — waiting...'}</span>`;
+      el.appendChild(div);
+    }
+    // Enable start if host and all 4 filled, or allow 2-player with AI fill
+    const filled = this.players.length;
+    const btnStart = document.getElementById('btnStartMP');
+    if (btnStart) {
+      btnStart.disabled = !this.isHost;
+      btnStart.textContent = filled === 4 ? 'Start Game →' : `Start with AI fill (${filled}/4) →`;
+    }
+    document.getElementById('lobbyStatus').textContent =
+      filled === 4 ? '✅ Full house! Ready to play!' : `${filled}/4 players joined`;
+  },
+
+  addChatMsg(name, msg) {
+    const el = document.getElementById('lobbyChat');
+    if (!el) return;
+    const div = document.createElement('div');
+    div.className = 'chat-msg';
+    div.innerHTML = `<span class="chat-name">${name}:</span> ${msg}`;
+    el.appendChild(div);
+    el.scrollTop = el.scrollHeight;
+  },
+
+  // ── Game start ────────────────────────────────────────────
+  startGame() {
+    if (!this.isHost) return;
+    this.send('player_ready', {});
+    // If < 4 players, fill with AI
+    this.humanSeats = this.players.map(p => p.seat);
+    this.send('game_action', { action: 'force_start', humanSeats: this.humanSeats });
+    this._launchGame();
+  },
+
+  _launchGame() {
+    this.active = true;
+    // Set player names from lobby
+    const names = ['Aap', 'Bot', 'Bot', 'Bot'];
+    this.players.forEach(p => { names[p.seat] = p.name; });
+    PLAYER_NAMES = names;
+    Game.startMultiplayer(this.mySeat, this.humanSeats);
+  },
+
+  // ── Incoming messages ────────────────────────────────────
+  _onMessage(msg) {
+    const { type, payload } = msg;
+
+    if (type === 'room_created') {
+      this.roomCode = payload.code;
+      this.mySeat = payload.seat;
+      this.isHost = true;
+      this.players = payload.players;
+      this.roomName = payload.roomName;
+      document.getElementById('lobbyCode').textContent = payload.code;
+      document.getElementById('lobbyMode').textContent = 'Multiplayer — Host';
+      const nameEl = document.getElementById('lobbyRoomName');
+      if (nameEl) nameEl.textContent = payload.roomName || '';
+      showScreen('lobby');
+      this.renderSeats();
+      this.addChatMsg('🕌', `Room "${payload.roomName}" banaya! Code: ${payload.code}`);
+    }
+
+    else if (type === 'room_joined') {
+      this.roomCode = payload.code;
+      this.mySeat = payload.seat;
+      this.isHost = false;
+      this.players = payload.players;
+      this.roomName = payload.roomName;
+      document.getElementById('lobbyCode').textContent = payload.code;
+      document.getElementById('lobbyMode').textContent = 'Multiplayer — Guest';
+      const nameEl = document.getElementById('lobbyRoomName');
+      if (nameEl) nameEl.textContent = payload.roomName || '';
+      showScreen('lobby');
+      this.renderSeats();
+      this.addChatMsg('🕌', `"${payload.roomName}" mein aa gaye! Seat ${payload.seat + 1}`);
+    }
+
+    else if (type === 'player_joined') {
+      this.players = payload.players;
+      this.renderSeats();
+      const newest = payload.players[payload.players.length - 1];
+      this.addChatMsg('👋', `${newest.name} aa gaye!`);
+      showToast(`👋 ${newest.name} joined!`, 1500);
+    }
+
+    else if (type === 'player_left') {
+      this.players = payload.players;
+      this.renderSeats();
+      showToast('👋 Ek player chala gaya', 1500);
+    }
+
+    else if (type === 'game_start') {
+      this.players = payload.players;
+      this.humanSeats = this.players.map(p => p.seat);
+      if (!this.isHost) this._launchGame();
+    }
+
+    else if (type === 'game_action') {
+      this._handleRemoteAction(payload);
+    }
+
+    else if (type === 'chat') {
+      this.addChatMsg(payload.name, payload.msg);
+    }
+
+    else if (type === 'rooms_list') {
+      this._renderRoomsList(payload.rooms || []);
+    }
+
+    else if (type === 'error') {
+      showToast('❌ ' + payload.msg, 2500);
+    }
+  },
+
+  // ── Outgoing game actions ─────────────────────────────────
+  sendAction(action, data = {}) {
+    if (!this.active) return;
+    this.send('game_action', { action, ...data });
+  },
+
+  // ── Incoming remote actions ───────────────────────────────
+  _handleRemoteAction(payload) {
+    if (!this.active) return;
+    const { action } = payload;
+
+    // ── Host → all: force start ──────────────────────────────
+    if (action === 'force_start') {
+      this.humanSeats = payload.humanSeats || [];
+      if (!this.isHost) {
+        this.humanSeats = payload.humanSeats;
+        Game.startMultiplayer(this.mySeat, this.humanSeats);
+      }
+      return;
+    }
+
+    // ── Host → non-host: hands dealt ────────────────────────
+    if (action === 'deal_hands' && !this.isHost) {
+      const s = Game.state;
+      if (!s) return;
+      payload.hands.forEach(({ seat, cards }) => { s.hands[seat] = cards; });
+      s.dealer = payload.dealer;
+      s.trump = payload.trump || null; // may be null at deal4 time
+      // Render own hand face-up (no click handlers yet), others face-down
+      Game.renderPlayerHand(this.mySeat, [], null);
+      for (let i = 0; i < 4; i++) {
+        if (i !== this.mySeat) Game.renderSideHand(i);
+      }
+      return;
+    }
+
+    // ── Host → non-host: it's YOUR turn to play a card ───────
+    if (action === 'your_turn' && !this.isHost) {
+      if (payload.seat !== this.mySeat) return; // not for us
+      const s = Game.state;
+      if (!s) return;
+      const ledSuit = payload.ledSuit;
+      const legal = Game.getLegalMoves(s.hands[this.mySeat], ledSuit, s.trump, s.trick);
+      setInstruction(ledSuit ? `Follow suit: ${SUIT_SYMBOLS[ledSuit]} ${ledSuit}` : 'You lead — play any card');
+      Game.renderPlayerHand(this.mySeat, legal, (card) => {
+        s.hands[this.mySeat] = s.hands[this.mySeat].filter(c => c.id !== card.id);
+        s.trick.push({ player: this.mySeat, card });
+        s.playedCards.push(card);
+        Game.playCardToTable(this.mySeat, card);
+        if (!s.trumpRevealed && card.suit === s.trump) Game.revealTrump();
+        Game.renderPlayerHand(this.mySeat, [], null);
+        // Send to host
+        MP.sendAction('play_card', { seat: this.mySeat, cardId: card.id });
+      });
+      return;
+    }
+
+    // ── Host → non-host: a different seat played a card (visual update) ─
+    if (action === 'play_card' && !this.isHost) {
+      const s = Game.state;
+      if (!s) return;
+      const seat = payload.seat;
+      if (seat === this.mySeat) return; // our own echo, ignore
+      const card = s.hands[seat]?.find(c => c.id === payload.cardId);
+      if (!card) return;
+      s.hands[seat] = s.hands[seat].filter(c => c.id !== payload.cardId);
+      s.trick.push({ player: seat, card });
+      s.playedCards.push(card);
+      Game.playCardToTable(seat, card);
+      if (!s.trumpRevealed && card.suit === s.trump) Game.revealTrump();
+      Game.renderSideHand(seat);
+      return;
+    }
+
+    // ── Non-host → host: remote human played a card ──────────
+    if (action === 'play_card' && this.isHost) {
+      if (this._pendingResolve) {
+        const resolve = this._pendingResolve;
+        this._pendingResolve = null;
+        resolve(payload);
+      }
+      return;
+    }
+
+    // ── Host → non-host: it's YOUR turn to bid ───────────────
+    if (action === 'your_turn_bid' && !this.isHost) {
+      if (payload.seat !== this.mySeat) return;
+      const s = Game.state;
+      if (!s) return;
+      s.highBid = payload.highBid;
+      // Show bid modal — submitBid will send result back to host
+      Game.showBidModal(payload.highBid, payload.isDealer);
+      return;
+    }
+
+    // ── Non-host → host: bid result ──────────────────────────
+    if (action === 'bid' && this.isHost) {
+      if (this._pendingResolve) {
+        const resolve = this._pendingResolve;
+        this._pendingResolve = null;
+        resolve(payload);
+      }
+      return;
+    }
+
+    // ── Host → non-host: it's YOUR turn to choose trump ──────
+    if (action === 'your_turn_trump' && !this.isHost) {
+      if (payload.seat !== this.mySeat) return;
+      const s = Game.state;
+      if (!s) return;
+      // showTrumpModal reads from hands[0] normally; remap for non-seat-0 players
+      // Temporarily swap hand so showTrumpModal shows the right cards
+      const origHand = s.hands[0];
+      s.hands[0] = s.hands[this.mySeat];
+      Game.showTrumpModal();
+      s.hands[0] = origHand;
+      return;
+    }
+
+    // ── Non-host → host: trump selection ─────────────────────
+    if (action === 'set_trump' && this.isHost) {
+      if (this._pendingResolve) {
+        const resolve = this._pendingResolve;
+        this._pendingResolve = null;
+        resolve(payload);
+      }
+      return;
+    }
+  },
+
+  // ── Wait for a remote seat's action ──────────────────────
+  waitForRemote() {
+    return new Promise(resolve => {
+      this._pendingResolve = resolve;
+    });
+  },
+
+  // ── Is this seat a human (remote or local)? ───────────────
+  isHuman(seat) {
+    return this.humanSeats.includes(seat);
+  },
+
+  isRemote(seat) {
+    return this.active && this.humanSeats.includes(seat) && seat !== this.mySeat;
+  },
+};
+
+// ============================================================
 // VERSION
 // ============================================================
-const TUNNY_VERSION = 'v1.2.0';
+const TUNNY_VERSION = 'v1.1.0';
 
 (function() {
   const vt = document.getElementById('versionTag');
