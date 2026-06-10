@@ -1077,6 +1077,7 @@ body {
   <div class="top-nav">
     <span class="game-title">Tunny</span>
     <div class="nav-actions">
+      <button class="nav-btn" onclick="Game.showTrumpInfo()">🃏 Trump?</button>
       <button class="nav-btn" onclick="toggleHints()">? Hints</button>
       <button class="nav-btn" onclick="confirmQuit()">✕ Quit</button>
     </div>
@@ -1155,9 +1156,9 @@ body {
     <h2>🎯 Bid Lagao!</h2>
     <p id="bidModalDesc">Pehle 4 cards dekhe — haath kitna strong hai?<br>Zyada bid = trump aap choose karo, lekin opponents ko compensation milega.</p>
     <div class="bid-options" id="bidOptions"></div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary btn-sm" onclick="Game.placeBid(0)" id="btnPass">Pass</button>
-      <button class="btn btn-primary btn-sm" onclick="Game.confirmBid()" id="btnConfirmBid" disabled>Confirm Bid</button>
+    <div class="modal-actions" style="flex-direction:column;gap:8px;">
+      <button class="btn btn-primary" onclick="Game.confirmBid()" id="btnConfirmBid" disabled style="width:100%">Confirm Bid</button>
+      <button class="btn btn-ghost" onclick="Game.placeBid(0)" id="btnPass" style="width:100%;color:var(--modal-text);border-color:#ccc;">👋 Pass — don't bid this round</button>
     </div>
   </div>
 </div>
@@ -1169,6 +1170,7 @@ body {
     <p>Bid jeet liya! Apne haath se ek suit trump banao.<br>Woh suit is round mein sab ko harayega! 💪</p>
     <div class="suit-picker" id="suitPicker"></div>
     <div class="modal-actions">
+      <button class="btn btn-secondary btn-sm" onclick="Game.passTrump()" id="btnPassTrump">Pass (No Trump)</button>
       <button class="btn btn-primary btn-sm" onclick="Game.confirmTrump()" id="btnConfirmTrump" disabled>Set Trump</button>
     </div>
   </div>
@@ -1670,6 +1672,7 @@ const Game = {
     s.highBid = 0;
     s.bidWinner = -1;
     s.bidAmount = 0;
+    s.noTrumpRound = false;
 
     const deck = shuffle(makeDeck());
     // Deal 4 cards to each player, clockwise from dealer
@@ -1723,9 +1726,16 @@ const Game = {
     if (s.bidIdx >= 4) {
       // Bidding done
       if (s.bidWinner === -1) {
-        // Nobody bid — dealer must take it at 10
-        s.bidWinner = s.dealer;
-        s.bidAmount = 10;
+        // Nobody bid — no-trump round (host broadcasts trump:null via deal_hands)
+        s.bidWinner = -1;
+        s.bidAmount = 0;
+        s.trump = null;
+        s.noTrumpRound = true;
+        showToast('🃏 Sab ne pass kiya — No Trump round!', 2200);
+        await sleep(800);
+        s.phase = 'deal2';
+        await this.runPhase();
+        return;
       }
       showToast(`🎯 ${PLAYER_NAMES[s.bidWinner]} wins the bid at ${s.bidAmount > 0 ? s.bidAmount : 'free'}!`, 2000);
       await sleep(800);
@@ -1789,6 +1799,10 @@ const Game = {
     container.innerHTML = '';
     this._selectedBid = 0;
 
+    const confirmBtn = document.getElementById('btnConfirmBid');
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Select a bid above ↑';
+
     for (const v of opts) {
       const chip = document.createElement('div');
       chip.className = 'bid-chip';
@@ -1797,21 +1811,26 @@ const Game = {
         document.querySelectorAll('.bid-chip').forEach(c => c.classList.remove('selected'));
         chip.classList.add('selected');
         this._selectedBid = v;
-        document.getElementById('btnConfirmBid').disabled = false;
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = `✓ Confirm Bid: ${v}`;
       };
       container.appendChild(chip);
     }
 
     const passBtn = document.getElementById('btnPass');
-    // Dealer must bid if nobody else did
-    const dealerMustBid = isDealer && s.bidWinner === -1;
-    passBtn.disabled = dealerMustBid;
-    if (dealerMustBid) {
-      document.getElementById('bidModalDesc').textContent = 'Nobody bid — as dealer you must take it at 10.';
+    // Human can always pass — even as dealer. If everyone passes, the round
+    // is played with no trump (see nextBidder).
+    passBtn.disabled = false;
+    if (isDealer && s.bidWinner === -1) {
+      document.getElementById('bidModalDesc').textContent =
+        'You\'re the dealer and nobody bid. Pick a number and Confirm to take the bid (and choose trump), or Pass to play a no-trump round.';
+    } else {
+      document.getElementById('bidModalDesc').textContent =
+        'Tap a number to bid, then Confirm — or Pass if you don\'t want to bid.';
     }
 
     showOverlay('overlayBid');
-    setInstruction('Your turn to bid');
+    setInstruction('Your turn to bid — pick a number or Pass');
   },
 
   placeBid(val) {
@@ -1862,8 +1881,18 @@ const Game = {
       MP.sendAction('your_turn_trump', { seat: winner });
       const payload = await MP.waitForRemote();
       setPlayerActive(winner, false, false);
-      s.trump = payload.suit;
-      showToast(`🤫 ${PLAYER_NAMES[winner]} ne trump set kiya — raaz hai!`, 1800);
+      if (payload.noTrump || payload.suit == null) {
+        // Remote winner passed trump — no-trump round
+        s.trump = null;
+        s.noTrumpRound = true;
+        s.bidWinner = -1;
+        s.bidAmount = 0;
+        showToast('🃏 No Trump round!', 1800);
+      } else {
+        s.trump = payload.suit;
+        s.noTrumpRound = false;
+        showToast(`🤫 ${PLAYER_NAMES[winner]} ne trump set kiya — raaz hai!`, 1800);
+      }
       await sleep(800);
       s.phase = 'deal2';
       await this.runPhase();
@@ -1920,12 +1949,33 @@ const Game = {
     closeOverlay('overlayTrump');
     const s = this.state;
     s.trump = this._selectedTrump;
+    s.noTrumpRound = false;
     showToast(`🤫 Trump set! Shh — raaz rakho!`, 1500);
     // In multiplayer as non-host: send trump to host then wait — host drives deal2
     if (MP.active && !MP.isHost) {
       MP.sendAction('set_trump', { seat: MP.mySeat, suit: this._selectedTrump });
       return;
     }
+    await sleep(600);
+    s.phase = 'deal2';
+    await this.runPhase();
+  },
+
+  // Bid winner declines to set a trump — play the round no-trump.
+  async passTrump() {
+    closeOverlay('overlayTrump');
+    const s = this.state;
+    s.trump = null;
+    s.noTrumpRound = true;
+    showToast('🃏 No Trump! Trump pass kiya.', 1800);
+    // Non-host: signal host with suit:null (host treats as no-trump)
+    if (MP.active && !MP.isHost) {
+      MP.sendAction('set_trump', { seat: MP.mySeat, suit: null, noTrump: true });
+      return;
+    }
+    // Host/solo: no bidding team in a no-trump round
+    s.bidWinner = -1;
+    s.bidAmount = 0;
     await sleep(600);
     s.phase = 'deal2';
     await this.runPhase();
@@ -2232,6 +2282,31 @@ const Game = {
     showToast(`🔥 Trump khul gaya! ${icon} ${name}!`, 2000);
   },
 
+  // Tell the player the current trump at any time (top-nav "🃏 Trump?" button).
+  showTrumpInfo() {
+    const s = this.state;
+    if (!s || (s.phase === 'draw' || s.phase === 'deal4' || s.phase === 'bid')) {
+      showToast('🃏 Trump abhi tay nahi hua — pehle bidding hone do!', 2200);
+      return;
+    }
+    if (s.noTrumpRound || (s.bidWinner === -1 && !s.trump)) {
+      showToast('🃏 No-Trump round — koi trump nahi hai!', 2200);
+      return;
+    }
+    if (!s.trump) {
+      showToast('🃏 Trump abhi tay nahi hua.', 2000);
+      return;
+    }
+    const icon = SUIT_SYMBOLS[s.trump];
+    const name = s.trump.charAt(0).toUpperCase() + s.trump.slice(1);
+    document.getElementById('trumpSuitIcon').textContent = icon;
+    document.getElementById('trumpSuitIcon').style.color =
+      SUIT_COLORS[s.trump] === 'red' ? 'var(--hearts-color)' : 'var(--clubs-color)';
+    document.getElementById('trumpSuitName').textContent = s.trumpRevealed ? 'Trump' : 'Trump (you know)';
+    document.getElementById('trumpDisplay').style.opacity = '1';
+    showToast(`🃏 Trump: ${icon} ${name}`, 2200);
+  },
+
   async jodieWindow(handWinner) {
     const s = this.state;
     const winTeam = this.teamOf(handWinner);
@@ -2381,6 +2456,18 @@ const Game = {
     const myTeam = 0; // counting from team0 perspective
     const t0pts = s.handScores[0];
     const t1pts = s.handScores[1];
+
+    // No-trump round (everyone passed): no bidding team. Higher trick-point
+    // total wins the round and takes 1 ball; ties go to nobody.
+    if (s.bidWinner === -1) {
+      const winTeam = t0pts === t1pts ? -1 : (t0pts > t1pts ? 0 : 1);
+      if (winTeam !== -1) s.balls[winTeam] += 1;
+      this.renderScoreBar();
+      if (this.checkGameOver()) return;
+      this.showRoundResult(t0pts, t1pts, winTeam === -1 ? 0 : winTeam, winTeam !== -1);
+      return;
+    }
+
     const bidTeam = this.teamOf(s.bidWinner);
     const countTeam = 1 - bidTeam;
 
@@ -3249,7 +3336,7 @@ const MP = {
 // ============================================================
 // VERSION
 // ============================================================
-const TUNNY_VERSION = 'v1.1.0';
+const TUNNY_VERSION = 'v1.2.1';
 
 (function() {
   const vt = document.getElementById('versionTag');
